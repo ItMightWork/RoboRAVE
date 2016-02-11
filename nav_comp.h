@@ -32,18 +32,18 @@ void * nav_comp_main(void *arg){
 
 	// Main task
 	//while (1){
-		do {
-			pthread_mutex_lock(&lock);						// Check if position changed else wait for it to change
-			if (start_posX == robot_posX && start_posY == robot_posY){
+		//do {
+			pthread_mutex_lock(&lock);						// Check if position changed else wait for the change
+			/*if (start_posX == robot_posX && start_posY == robot_posY){
 				pos_changed = 0;
-			} else {
+			} else {*/
 				pos_changed = 1;
 				start_posX = robot_posX;
 				start_posY = robot_posY;
-			}
+			//}
 			pthread_mutex_unlock(&lock);
 			sleep(0.01);
-		} while (pos_changed == 0);
+		//} while (pos_changed == 0);
 
 		pthread_mutex_lock(&lock);							// update local map
 		for (int i=0; i<local_map_size; ++i){
@@ -53,20 +53,26 @@ void * nav_comp_main(void *arg){
 		}
 		pthread_mutex_unlock(&lock);
 
+		local_map[5][8] = 3;
+		local_map[5][7] = 3;
+		local_map[5][6] = 4;
+
 
 		queue_value = start_posX;							// Insert start position into queue
-		queue_value |= start_posY<<15;
-		add_item(Q,queue_value);
-		map[start_posY][start_posX] |= 1<<7;
-		
+		queue_value |= start_posY<<15;						// queue_value = 00 000000000000000 000000000000000
+		add_item(Q,queue_value);							//				 dir    y coord         x coord
+
+		map[start_posY][start_posX] |= 1<<7;				// Flag node as visited
+															// map[y][x] = 0  00  00000
+															//  	  visited dir object
 		// BFS loop
 		while (Q->size > 0){
 			queue_value = pick_item(Q);						// Load tested node
 			x = queue_value & 0x7fff;
-			y = queue_value & (0x7fff<<15);
+			y = (queue_value>>15) & 0x7fff;
+			local_map[y][x] |= 1<<7;
 
-			map_value = local_map[y][x];					// Check node if wanted 
-			map_value &= 0x7f;
+			map_value = local_map[y][x] & 0x7f;				// Check node if wanted 
 			if (map_value == 0 && found_unvisited[0] < 0){	// Write down first unexplored node
 				found_unvisited[0] = x;
 				found_unvisited[1] = y;
@@ -80,12 +86,10 @@ void * nav_comp_main(void *arg){
 			for (int i=0; i<4; ++i){						// Explore node's neightbours
 				new_x = x + directions[i][0];
 				new_y = y + directions[i][1];
-				//printf("testing %d %d\n", new_x,new_y);
+
 				if (new_x >= 0 && new_x < local_map_size && new_y >= 0 && new_y < local_map_size){		// If coords are valid
-					//printf("passed\n");
 					map_value = local_map[new_y][new_x];
-					printf("%d\n", (map_value & (1<<7)));
-					if (!(map_value & (1<<7))){				// If node is not discovered
+					if ((map_value & (1<<7)) == 0){				// If node is not discovered
 						if ((map_value & 0x1f) < 4){		// If node is not wall
 							queue_value = new_x;
 							queue_value |= new_y<<15;
