@@ -5,8 +5,8 @@
 
 pthread_mutex_t lock = PTHREAD_MUTEX_INITIALIZER;
 
-int robot_posX = MAP_SIZE/2;
-int robot_posY = MAP_SIZE/2;
+int robot_posX = 0;//MAP_SIZE/2;
+int robot_posY = 0;//MAP_SIZE/2;
 int robot_direction;
 
 int map_size = MAP_SIZE;
