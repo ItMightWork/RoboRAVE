@@ -12,7 +12,6 @@
 
 int motorMove (int strengthPerc, int motorNum) {
 
-	wiringPiSetup(); //Might be removed
 	int pwmPin;
 		
 		////FORWARD////
@@ -25,10 +24,8 @@ int motorMove (int strengthPerc, int motorNum) {
 			
 				pwmPin = 19; 
 					
-				pinMode(PHASE_PINL, OUTPUT);
 				digitalWrite(PHASE_PINL, LOW);  //Phase 
 
-				pinMode(pmwPin, PWM_OUTPUT);
 				pwmWrite(pwmPin, motorSpeed);   //Enable 
 			}
 
@@ -37,11 +34,9 @@ int motorMove (int strengthPerc, int motorNum) {
 
 				pwmPin = 33;
 
-				pinMode(PHASE_PINR, OUTPUT);
 				digitalWrite(PHASE_PINR, LOW);	//Phase
 
-				pinMode(pwmPin, PWM_OUTPUT);
-				pwmWrite(pwmPinm, motorSpeed); //Enable
+			    pwmWrite(pwmPinm, motorSpeed); //Enable
 			}
 		}
 	
@@ -53,12 +48,10 @@ int motorMove (int strengthPerc, int motorNum) {
 			////LEFT MOTOR////			
 			if (motorNum = 1) {
 
-				pwmPin = 19; 
-					
-				pinMode(PHASE_PINL, OUTPUT);
+				pwmPin = 19;					
+				
 				digitalWrite(PHASE_PINL, HIGH);  //Phase 
-
-				pinMode(pmwPin, PWM_OUTPUT);
+				
 				pwmWrite(pwmPin, motorSpeed);   //Enable
 			}
 
@@ -66,11 +59,9 @@ int motorMove (int strengthPerc, int motorNum) {
 			else if (motorNum = 2) {
 
 				pwmPin = 33;
-
-				pinMode(PHASE_PINR, OUTPUT);
+				
 				digitalWrite(PHASE_PINR, HIGH);	//Phase
-
-				pinMode(pwmPin, PWM_OUTPUT);
+				
 				pwmWrite(pwmPinm, motorSpeed); //Enable
 			}
 
@@ -84,12 +75,10 @@ int motorMove (int strengthPerc, int motorNum) {
 			////LEFT MOTOR////
 			if (motorNum = 1) {
 
-				pwmPin = 19; 
-					
-				pinMode(PHASE_PINL, OUTPUT);
+				pwmPin = 19; 				
+				
 				digitalWrite(PHASE_PINL, LOW);  //Phase - can be anything 
-
-				pinMode(pmwPin, PWM_OUTPUT);
+				
 				pwmWrite(pwmPin, motorSpeed);   //Enable  - must be 0
 			}
 
@@ -97,11 +86,9 @@ int motorMove (int strengthPerc, int motorNum) {
 			else if (motorNum = 2) {
 
 				pwmPin = 33;
-
-				pinMode(PHASE_PINR, OUTPUT);
+				
 				digitalWrite(PHASE_PINR, LOW);	//Phase - can be anything 
 
-				pinMode(pwmPin, PWM_OUTPUT);
 				pwmWrite(pwmPinm, motorSpeed); //Enable - must be 0
 			}
 		}
