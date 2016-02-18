@@ -1,26 +1,26 @@
 
 #include "WiringPi.h"
 
-#define PHASE_PINL 10
-#define PHASE_PINR 11
+#define PHASE_PINL 10 //Phase pin for left motor
+#define PHASE_PINR 11 //Phase pin for right motor
 
 	//1 = left motor
 	//2 = right motor
-	//pwmPin = 19 - left
-	//pwmPin = 33 - right
+	//pwmPin = 19 - left motor
+	//pwmPin = 33 - right motor
+	//pwmWrite - max value = 1024
 
 int motorMove (int strengthPerc, int motorNum) {
 
-	wiringPiSetup();
+	wiringPiSetup(); //Might be removed
 	int pwmPin;
-	int motorSpeed = (int) (10.24*strengthPerc);
-	
+		
 		////FORWARD////
+		if (strengthPerc > 0) {
 
-		if (motorSpeed > 0) {
+			int motorSpeed = (int) (10.24*strengthPerc);
 			
 			////LEFT MOTOR////
-
 			if (motorNum = 1) {
 			
 				pwmPin = 19; 
@@ -29,11 +29,10 @@ int motorMove (int strengthPerc, int motorNum) {
 				digitalWrite(PHASE_PINL, LOW);  //Phase 
 
 				pinMode(pmwPin, PWM_OUTPUT);
-				pwmWrite(pwmPin, motorSpeed);   //Enable
+				pwmWrite(pwmPin, motorSpeed);   //Enable 
 			}
 
 			///RIGHT MOTOR////
-
 			else if (motorNum = 2) {
 
 				pwmPin = 33;
@@ -46,14 +45,12 @@ int motorMove (int strengthPerc, int motorNum) {
 			}
 		}
 	
-		////REVERSE////
-		
-		else if (motorSpeed < 0) {
+		////REVERSE////		
+		else if (strengthPerc < 0) {
 
-			motorSpeed = abs(motorSpeed);
+			int motorSpeed = (int) abs(10.24*strengthPerc);
 			
-			////LEFT MOTOR////
-			
+			////LEFT MOTOR////			
 			if (motorNum = 1) {
 
 				pwmPin = 19; 
@@ -66,7 +63,6 @@ int motorMove (int strengthPerc, int motorNum) {
 			}
 
 			////RIGHT MOTOR////
-
 			else if (motorNum = 2) {
 
 				pwmPin = 33;
@@ -80,12 +76,12 @@ int motorMove (int strengthPerc, int motorNum) {
 
 		}
 
-		////BRAKE////
-		
-		else {
+		////BRAKE////		
+		else if (strengthPerc = 0) {
+
+			int motorSpeed = 0;
 
 			////LEFT MOTOR////
-
 			if (motorNum = 1) {
 
 				pwmPin = 19; 
@@ -98,7 +94,6 @@ int motorMove (int strengthPerc, int motorNum) {
 			}
 
 			////RIGHT MOTOR////
-
 			else if (motorNum = 2) {
 
 				pwmPin = 33;
