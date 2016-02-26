@@ -38,6 +38,24 @@ int motorMove (int strengthPerc, int motorNum) {
 
 			    pwmWrite(pwmPinm, motorSpeed); //Enable
 			}
+
+			////BOTH MOTORS////
+			else if (motorNum = 3) {
+
+				//LEFT//
+					pwmPin = 19; 
+					
+				digitalWrite(PHASE_PINL, LOW);  //Phase 
+
+				pwmWrite(pwmPin, motorSpeed);   //Enable 
+
+				//RIGHT//
+					pwmPin = 33;
+
+				digitalWrite(PHASE_PINR, LOW);	//Phase
+
+			    pwmWrite(pwmPinm, motorSpeed); //Enable
+			}
 		}
 	
 		////REVERSE////		
@@ -65,6 +83,24 @@ int motorMove (int strengthPerc, int motorNum) {
 				pwmWrite(pwmPinm, motorSpeed); //Enable
 			}
 
+			////BOTH MOTORS////
+			else if (motorNum = 3) {
+
+				//LEFT//
+					pwmPin = 19; 
+					
+				digitalWrite(PHASE_PINL, HIGH);  //Phase 
+
+				pwmWrite(pwmPin, motorSpeed);   //Enable 
+
+				//RIGHT//
+					pwmPin = 33;
+
+				digitalWrite(PHASE_PINR, HIGH);	//Phase
+
+			    pwmWrite(pwmPinm, motorSpeed); //Enable
+			}
+
 		}
 
 		////BRAKE////		
@@ -90,6 +126,24 @@ int motorMove (int strengthPerc, int motorNum) {
 				digitalWrite(PHASE_PINR, LOW);	//Phase - can be anything 
 
 				pwmWrite(pwmPinm, motorSpeed); //Enable - must be 0
+			}
+
+			////BOTH MOTORS////
+			else if (motorNum = 3) {
+
+				//LEFT//
+					pwmPin = 19; 
+					
+				digitalWrite(PHASE_PINL, LOW);  //Phase 
+
+				pwmWrite(pwmPin, motorSpeed);   //Enable 
+
+				//RIGHT//
+					pwmPin = 33;
+
+				digitalWrite(PHASE_PINR, LOW);	//Phase
+
+			    pwmWrite(pwmPinm, motorSpeed); //Enable
 			}
 		}
 
