@@ -25,14 +25,16 @@ void * nav_comp_main(void *arg){
 	int found_unvisited[2] = {-1,-1};
 	int found_target[2] = {-1,-1};
 	int pos_changed = 1;
-	int path_lenght, direction;
+	int local_path_lenght, direction;
+
+	char local_path[local_map_size*local_map_size];
 
 	int queue_value, map_value;
 
 	queue *Q = create_queue(5*local_map_size);
 
 	// ----- Main task -----
-	//while (1){
+	while (1){
 		do {		// Update data
 			pthread_mutex_lock(&lock);						// Check if position changed else wait for the change
 			if (start_posX == robot_posX && start_posY == robot_posY){
@@ -54,12 +56,7 @@ void * nav_comp_main(void *arg){
 		}
 		pthread_mutex_unlock(&lock);
 		// Update complete!
-
-
-		local_map[1][1] = 4;
-		local_map[3][6] = 4;
-		local_map[4][6] = 4;
-		local_map[5][6] = 3;
+		local_map[10][10] = 3;
 
 		found_target[0] = -1;								// Clear found
 		found_target[1] = -1;
@@ -115,22 +112,8 @@ void * nav_comp_main(void *arg){
 			}
 		}
 
-/*
-		printf("    0 1 2 3 4 5 6 7 8 9\n");
-		for (int y = 0; y < local_map_size; ++y)
-		{
-			printf("%d | ", y);
-			for (int x = 0; x < local_map_size; ++x)
-			{
-				printf("%d ", (local_map[y][x]) & 0x1f);
-			}
-			printf("\n");
-		}
-		printf("\n");
-*/
 
-		direction = 0;
-		path_lenght = 0;
+		local_path_lenght = 0;
 		if (found_target[0] != -1 || found_unvisited[0] != -1){						// If found path
 			x = (found_target[0] != -1) ? found_target[0] : found_unvisited[0];		// Select target coords
 			y = (found_target[1] != -1) ? found_target[1] : found_unvisited[1];
@@ -138,29 +121,41 @@ void * nav_comp_main(void *arg){
 			new_x = x;
 			new_y = y;
 			while (!(start_posX == new_x && start_posY == new_y)){					// Count path lenght to start
-				path_lenght++;
+				local_path_lenght++;
 				direction = (local_map[new_y][new_x]>>5) & 0x3;
 				new_x += directions[direction][0];
 				new_y += directions[direction][1];
 			}
 
-			char path[path_lenght];										// Create path array
-			for (int i = path_lenght-1; i >= 0; i--){					// Fill path array
-				direction = (local_map[y][x]>>5) & 0x3;
-				path[i] = (direction+2)%4;
-				x += directions[direction][0];
-				y += directions[direction][1];
+			new_x = x;
+			new_y = y;
+			for (int i = local_path_lenght-1; i >= 0; i--){						// Fill path array
+				direction = (local_map[new_y][new_x]>>5) & 0x3;
+				local_path[i] = (direction+2)%4;
+				new_x += directions[direction][0];
+				new_y += directions[direction][1];
 			}
-
-			printf("path: ");
-			for (int i=0; i<path_lenght; i++){ printf("%d ", path[i]); }
-			printf("\n");
 		}
+/*
+		printf("path: ");
+		for (int i=0; i<local_path_lenght; i++){ printf("%d ", local_path[i]); }
+		printf("\n");
 
-		printf("lenght: %d\n", path_lenght);
+		printf("lenght: %d\n", local_path_lenght);
 		printf("unvisited: %d %d\n", found_unvisited[0],found_unvisited[1]);
 		printf("target: %d %d\n", found_target[0],found_target[1]);
-	//}
+
+*/
+		pthread_mutex_lock(&lock);							// Share new path
+		new_path_flag = 1;
+		path_lenght = local_path_lenght;
+		for (int i=0; i<local_path_lenght; i++){
+			path[i] = local_path[i];
+		}
+		pthread_mutex_unlock(&lock);
+
+
+	}
 
 	return NULL;
 }
