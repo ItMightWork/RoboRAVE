@@ -20,7 +20,7 @@ int motorMove (int strengthPerc, int motorNum) {
 			int motorSpeed = (int) (10.24*strengthPerc);
 			
 			////LEFT MOTOR////
-			if (motorNum = 1) {
+			if (motorNum == 1) {
 			
 				pwmPin = 19; 
 					
@@ -30,7 +30,7 @@ int motorMove (int strengthPerc, int motorNum) {
 			}
 
 			///RIGHT MOTOR////
-			else if (motorNum = 2) {
+			else if (motorNum == 2) {
 
 				pwmPin = 33;
 
@@ -40,7 +40,7 @@ int motorMove (int strengthPerc, int motorNum) {
 			}
 
 			////BOTH MOTORS////
-			else if (motorNum = 3) {
+			else if (motorNum == 3) {
 
 				//LEFT//
 					pwmPin = 19; 
@@ -64,7 +64,7 @@ int motorMove (int strengthPerc, int motorNum) {
 			int motorSpeed = (int) abs(10.24*strengthPerc);
 			
 			////LEFT MOTOR////			
-			if (motorNum = 1) {
+			if (motorNum == 1) {
 
 				pwmPin = 19;					
 				
@@ -74,7 +74,7 @@ int motorMove (int strengthPerc, int motorNum) {
 			}
 
 			////RIGHT MOTOR////
-			else if (motorNum = 2) {
+			else if (motorNum == 2) {
 
 				pwmPin = 33;
 				
@@ -84,7 +84,7 @@ int motorMove (int strengthPerc, int motorNum) {
 			}
 
 			////BOTH MOTORS////
-			else if (motorNum = 3) {
+			else if (motorNum == 3) {
 
 				//LEFT//
 					pwmPin = 19; 
@@ -104,12 +104,12 @@ int motorMove (int strengthPerc, int motorNum) {
 		}
 
 		////BRAKE////		
-		else if (strengthPerc = 0) {
+		else if (strengthPerc == 0) {
 
 			int motorSpeed = 0;
 
 			////LEFT MOTOR////
-			if (motorNum = 1) {
+			if (motorNum == 1) {
 
 				pwmPin = 19; 				
 				
@@ -119,7 +119,7 @@ int motorMove (int strengthPerc, int motorNum) {
 			}
 
 			////RIGHT MOTOR////
-			else if (motorNum = 2) {
+			else if (motorNum == 2) {
 
 				pwmPin = 33;
 				
@@ -129,7 +129,7 @@ int motorMove (int strengthPerc, int motorNum) {
 			}
 
 			////BOTH MOTORS////
-			else if (motorNum = 3) {
+			else if (motorNum == 3) {
 
 				//LEFT//
 					pwmPin = 19; 
