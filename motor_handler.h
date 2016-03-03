@@ -1,104 +1,105 @@
 
-#include "WiringPi.h"
 
-#define PHASE_PINL 10 //Phase pin for left motor
-#define PHASE_PINR 11 //Phase pin for right motor
+#include <wiringPi.h>
+#include <softPwm.h>
+							
 
-	//1 = left motor
-	//2 = right motor
-	//pwmPin = 19 - left motor
-	//pwmPin = 33 - right motor
-	//pwmWrite - max value = 1024
+		//1 = left motor
+		//2 = right motor
+		//pwmPin = 12 - left motor - 19 on odroid
+		//pwmPin = 23 - right motor - 33 on odroid
+		//softPwmWrite - max value = 1024
+		//1 - phase 2 - enable
 
-int motorMove (int strengthPerc, int motorNum) {
+
+
+int motorMove (int strengthPerc, int motorNum, int pPinL, int pPinR) {
 
 	int pwmPin;
 		
 		////FORWARD////
 		if (strengthPerc > 0) {
-
-			int motorSpeed = (int) (10.24*strengthPerc);
+					
 			
 			////LEFT MOTOR////
 			if (motorNum == 1) {
 			
-				pwmPin = 19; 
+				pwmPin = 12; 
 					
-				digitalWrite(PHASE_PINL, LOW);  //Phase 
+				digitalWrite(pPinL, LOW);  					//Phase 
 
-				pwmWrite(pwmPin, motorSpeed);   //Enable 
+				softPwmWrite(pwmPin, strengthPerc);   		//Enable 
 			}
 
 			///RIGHT MOTOR////
 			else if (motorNum == 2) {
 
-				pwmPin = 33;
+				pwmPin = 23;
 
-				digitalWrite(PHASE_PINR, LOW);	//Phase
+				digitalWrite(pPinR, LOW);					//Phase
 
-			    pwmWrite(pwmPinm, motorSpeed); //Enable
+			    softPwmWrite(pwmPin, strengthPerc); 		//Enable
 			}
 
 			////BOTH MOTORS////
 			else if (motorNum == 3) {
 
 				//LEFT//
-					pwmPin = 19; 
+					pwmPin = 12; 
 					
-				digitalWrite(PHASE_PINL, LOW);  //Phase 
+				digitalWrite(pPinL, LOW);  					//Phase
 
-				pwmWrite(pwmPin, motorSpeed);   //Enable 
+				softPwmWrite(pwmPin, strengthPerc);   		//Enable 
 
 				//RIGHT//
-					pwmPin = 33;
+					pwmPin = 23;
 
-				digitalWrite(PHASE_PINR, LOW);	//Phase
+				digitalWrite(pPinR, LOW);					//Phase
 
-			    pwmWrite(pwmPinm, motorSpeed); //Enable
+			    softPwmWrite(pwmPin, strengthPerc); 		//Enable
 			}
 		}
 	
 		////REVERSE////		
 		else if (strengthPerc < 0) {
 
-			int motorSpeed = (int) abs(10.24*strengthPerc);
-			
+						
 			////LEFT MOTOR////			
 			if (motorNum == 1) {
 
-				pwmPin = 19;					
+				pwmPin = 12;					
 				
-				digitalWrite(PHASE_PINL, HIGH);  //Phase 
+				digitalWrite(pPinL, HIGH);  				//Phase 
 				
-				pwmWrite(pwmPin, motorSpeed);   //Enable
+				softPwmWrite(pwmPin, strengthPerc);   		//Enable
 			}
 
 			////RIGHT MOTOR////
 			else if (motorNum == 2) {
 
-				pwmPin = 33;
+				pwmPin = 23;
 				
-				digitalWrite(PHASE_PINR, HIGH);	//Phase
+				digitalWrite(pPinR, HIGH);					//Phase
 				
-				pwmWrite(pwmPinm, motorSpeed); //Enable
+				softPwmWrite(pwmPin, strengthPerc); 		//Enable
 			}
 
 			////BOTH MOTORS////
 			else if (motorNum == 3) {
 
 				//LEFT//
-					pwmPin = 19; 
+					pwmPin = 12; 
 					
-				digitalWrite(PHASE_PINL, HIGH);  //Phase 
+				digitalWrite(pPinL, HIGH);  				//Phase 
 
-				pwmWrite(pwmPin, motorSpeed);   //Enable 
+				softPwmWrite(pwmPin, strengthPerc);   		//Enable 
 
 				//RIGHT//
-					pwmPin = 33;
+					pwmPin = 23;
 
-				digitalWrite(PHASE_PINR, HIGH);	//Phase
+				digitalWrite(pPinR, HIGH);					//Phase
 
-			    pwmWrite(pwmPinm, motorSpeed); //Enable
+			    softPwmWrite(pwmPin, strengthPerc); 		//Enable
 			}
 
 		}
@@ -106,44 +107,44 @@ int motorMove (int strengthPerc, int motorNum) {
 		////BRAKE////		
 		else if (strengthPerc == 0) {
 
-			int motorSpeed = 0;
+			int strengthPerc = 0;
 
 			////LEFT MOTOR////
 			if (motorNum == 1) {
 
-				pwmPin = 19; 				
+				pwmPin = 12; 				
 				
-				digitalWrite(PHASE_PINL, LOW);  //Phase - can be anything 
+				digitalWrite(pPinL, LOW);  					//Phase - can be anything 
 				
-				pwmWrite(pwmPin, motorSpeed);   //Enable  - must be 0
+				softPwmWrite(pwmPin, strengthPerc);   		//Enable  - must be 0
 			}
 
 			////RIGHT MOTOR////
 			else if (motorNum == 2) {
 
-				pwmPin = 33;
+				pwmPin = 23;
 				
-				digitalWrite(PHASE_PINR, LOW);	//Phase - can be anything 
+				digitalWrite(pPinR, LOW);					//Phase - can be anything 
 
-				pwmWrite(pwmPinm, motorSpeed); //Enable - must be 0
+				softPwmWrite(pwmPin, strengthPerc); 		//Enable - must be 0
 			}
 
 			////BOTH MOTORS////
 			else if (motorNum == 3) {
 
 				//LEFT//
-					pwmPin = 19; 
+					pwmPin = 12; 
 					
-				digitalWrite(PHASE_PINL, LOW);  //Phase 
+				digitalWrite(pPinL, LOW);  					//Phase 
 
-				pwmWrite(pwmPin, motorSpeed);   //Enable 
+				softPwmWrite(pwmPin, strengthPerc);   		//Enable 
 
 				//RIGHT//
-					pwmPin = 33;
+					pwmPin = 23;
 
-				digitalWrite(PHASE_PINR, LOW);	//Phase
+				digitalWrite(pPinR, LOW);					//Phase
 
-			    pwmWrite(pwmPinm, motorSpeed); //Enable
+			    softPwmWrite(pwmPin, strengthPerc); 		//Enable
 			}
 		}
 
